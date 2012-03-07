@@ -1,5 +1,3 @@
-import com.sun.servicetag.SystemEnvironment;
-
 import java.util.Scanner;
 
 /**
@@ -15,5 +13,15 @@ public class JavaTicTacToe {
         UserInput input = new UserInput(new Scanner(System.in));
         
         System.out.println("Welcome to the Gentleman's game of TicTacToe");
+        
+        while(!game.isFinished()) {
+            Move humanMove = null;
+            do {
+                System.out.print("Enter your move:");
+                humanMove = input.nextMove();
+            } while(!game.isValidMove(humanMove));
+            game.placeXToken(humanMove);
+            System.out.println(game);
+        }
     }
 }

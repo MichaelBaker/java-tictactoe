@@ -1,3 +1,5 @@
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created by IntelliJ IDEA.
  * User: michaelbaker
@@ -8,6 +10,10 @@
 public class Game {
     private String[] board;
 
+    public String toString() {
+        return StringUtils.join(board, ", ");
+    }
+    
     public Game() {
         this.board = new String[9];
     }
