@@ -1,4 +1,5 @@
 import com.sun.servicetag.SystemEnvironment;
+
 import java.util.Scanner;
 
 /**
@@ -10,12 +11,9 @@ import java.util.Scanner;
  */
 public class JavaTicTacToe {
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        String x = in.nextLine();
-        System.out.println(x);
-    }
-    
-    public int thing() {
-        return 5;
+        Game game       = new Game();
+        UserInput input = new UserInput(new Scanner(System.in));
+        
+        System.out.println("Welcome to the Gentleman's game of TicTacToe");
     }
 }

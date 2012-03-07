@@ -46,7 +46,7 @@ public class UserInput {
         if(row.equals("a")) {
             return 0;
         } else if(row.equals("b")) {
-         return 1;
+            return 1;
         } else if(row.equals("c")) {
             return 2;
         } else {
