@@ -4,9 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/test/GameTest.java" line="16" mnemonic="0" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4f1752b-3ad0-4a90-b16d-5252a34d8617" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Game.java" afterPath="$PROJECT_DIR$/src/Game.java" />
-    </list>
+    <list default="true" id="f4f1752b-3ad0-4a90-b16d-5252a34d8617" name="Default" comment="" />
     <ignored path="JavaTicTacToe.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
