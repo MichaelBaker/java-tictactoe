@@ -9,25 +9,33 @@ import java.util.Scanner;
  */
 public class JavaTicTacToe {
     public static void main(String[] args) {
-        Game game       = new Game();
-        UserInput input = new UserInput(new Scanner(System.in), System.out, "Invalid space:");
+        String invalidMoveText    = "Invalid space:";
+        String enterMoveText      = "Enter your move:";
+        String welcomeText        = "Welcome to the Gentleman's game of TicTacToe";
+        String gameOverText       = "~ Game Over ~";
+        String playerOneToken     = "X";
+        String playerTwoToken     = "O";
+
+        Game game                 = new Game(playerOneToken, playerTwoToken);
+        ScreenFormatter formatter = new ScreenFormatter();
+        UserInput input           = new UserInput(new Scanner(System.in), System.out, invalidMoveText);
         
-        System.out.println("Welcome to the Gentleman's game of TicTacToe");
+        System.out.println(welcomeText);
         
         while(!game.isFinished()) {
-            System.out.println(game);
-            Move humanMove = null;
-            System.out.print("Enter your move:");
-            humanMove = input.nextMove();
+            System.out.println(formatter.board(game.boardToArray()));
+            System.out.print(enterMoveText);
+            Move humanMove = input.nextMove();
             while(!game.isValidMove(humanMove)) {
-                System.out.print("Invalid space:");
+                System.out.print(invalidMoveText);
                 humanMove = input.nextMove();
             }
-            game.placeXToken(humanMove);
-            MinMax computer = new MinMax(game.boardToArray(), "O", "X");
-            game.placeOToken(computer.maxMove());
+            game.placePlayerOneToken(humanMove);
+            MinMaxPlayer computer = new MinMaxPlayer(game.boardToArray(), playerTwoToken, playerOneToken);
+            game.placePlayerTwoToken(computer.nextMove());
         }
-        System.out.println("~ Game Over ~");
-        System.out.println(game);
+
+        System.out.println(gameOverText);
+        System.out.println(formatter.board(game.boardToArray()));
     }
 }

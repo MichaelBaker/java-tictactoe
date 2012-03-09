@@ -14,6 +14,9 @@ public class Move {
         this.column = column;
     }
     
+    public boolean equals(Move other) {
+        return other.getColumn() == getColumn() && other.getRow() == getRow();
+    }
     public int getRow() {
       return this.row;  
     }

@@ -5,33 +5,33 @@
  * Time: 7:56 PM
  * To change this template use File | Settings | File Templates.
  */
-public class MinMax {
+public class MinMaxPlayer {
     private String[] board;
     private String maxToken;
     private String minToken;
     
-    public MinMax(String[] board, String maxToken, String minToken) {
+    public MinMaxPlayer(String[] board, String maxToken, String minToken) {
         this.board    = board;
         this.maxToken = maxToken;
         this.minToken = minToken;
     }
     
-    public int maxMove() {
+    public Move nextMove() {
         int bestScore = Integer.MIN_VALUE;
         int bestSpace = 0;
         for(int i = 0; i < board.length; i++) {
             if(board[i] == null) {
-                String[] newBoard = this.board.clone();
-                newBoard[i]       = this.maxToken;
-                MinMax child      = new MinMax(newBoard, this.maxToken, this.minToken);
-                int childValue    = child.minimize();
+                String[] newBoard  = this.board.clone();
+                newBoard[i]        = this.maxToken;
+                MinMaxPlayer child = new MinMaxPlayer(newBoard, this.maxToken, this.minToken);
+                int childValue     = child.minimize();
                 if(childValue > bestScore) {
                     bestScore = childValue;
                     bestSpace = i;
                 }
             }
         }
-        return bestSpace;
+        return convertIndexToMove(bestSpace);
     }
     
     public boolean minWins() {
@@ -51,6 +51,12 @@ public class MinMax {
         return true;
     }
 
+    private Move convertIndexToMove(int i) {
+        int row    = i / 3;
+        int column = i % 3;
+        return new Move(row, column);
+    }
+
     private int minimize() {
         if(boardIsFull() || minWins()) {
             return heuristic();
@@ -60,7 +66,7 @@ public class MinMax {
                 if(board[i] == null) {
                     String[] newBoard = this.board.clone();
                     newBoard[i]       = this.minToken;
-                    MinMax child      = new MinMax(newBoard, this.maxToken, this.minToken);
+                    MinMaxPlayer child      = new MinMaxPlayer(newBoard, this.maxToken, this.minToken);
                     int childValue    = child.maximize();
                     if(childValue < bestScore) {
                         bestScore = childValue;
@@ -80,7 +86,7 @@ public class MinMax {
                 if(board[i] == null) {
                     String[] newBoard = this.board.clone();
                     newBoard[i]       = this.maxToken;
-                    MinMax child      = new MinMax(newBoard, this.maxToken, this.minToken);
+                    MinMaxPlayer child      = new MinMaxPlayer(newBoard, this.maxToken, this.minToken);
                     int childValue    = child.minimize();
                     if(childValue > bestScore) {
                         bestScore = childValue;

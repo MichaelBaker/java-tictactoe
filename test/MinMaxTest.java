@@ -14,61 +14,65 @@ public class MinMaxTest {
     
     @Test
     public void testProperOpeningMove() {
-        MinMax minMax         = new MinMax(board, "X", "O");
-        int[] acceptableMoves = {0, 2, 4, 6, 7};
-        assert(inSet(acceptableMoves, minMax.maxMove()));
+        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
+        Move[] acceptableMoves = {new Move(0, 0),
+                                  new Move(0, 2),
+                                  new Move(1, 1),
+                                  new Move(2, 0),
+                                  new Move(2, 2)};
+        assert(inSet(acceptableMoves, minMaxPlayer.nextMove()));
     }
 
     @Test
     public void testHeuristic1() {
-        board[0]      = "O";
-        MinMax minMax = new MinMax(board, "X", "O");
-        assertEquals(-3, minMax.heuristic());
+        board[0] = "O";
+        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
+        assertEquals(-3, minMaxPlayer.heuristic());
     }
 
     @Test
     public void testHeuristic2() {
-        board[0]      = "X";
-        MinMax minMax = new MinMax(board, "X", "O");
-        assertEquals(3, minMax.heuristic());
+        board[0] = "X";
+        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
+        assertEquals(3, minMaxPlayer.heuristic());
     }
 
     @Test
     public void testHeuristic3() {
-        board[0]      = "O";
-        board[1]      = "X";
-        MinMax minMax = new MinMax(board, "X", "O");
-        assertEquals(-1, minMax.heuristic());
+        board[0] = "O";
+        board[1] = "X";
+        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
+        assertEquals(-1, minMaxPlayer.heuristic());
     }
 
     @Test
     public void testHeuristic4() {
-        board[0]      = "O";
-        board[1]      = "O";
-        MinMax minMax = new MinMax(board, "X", "O");
-        assertEquals(-5, minMax.heuristic());
+        board[0] = "O";
+        board[1] = "O";
+        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
+        assertEquals(-5, minMaxPlayer.heuristic());
     }
 
     @Test
     public void testHeuristic5() {
-        board[0]      = "X";
-        board[1]      = "X";
-        board[2]      = "X";
-        MinMax minMax = new MinMax(board, "X", "O");
-        assertEquals(Integer.MAX_VALUE, minMax.heuristic());
+        board[0] = "X";
+        board[1] = "X";
+        board[2] = "X";
+        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
+        assertEquals(Integer.MAX_VALUE, minMaxPlayer.heuristic());
     }
 
     @Test
     public void testTakesCenterWhenOpponentTakesCorner() {
-        board[0]              = "O";
-        MinMax minMax         = new MinMax(board, "X", "O");
-        int[] acceptableMoves = {4};
-        assert(inSet(acceptableMoves, minMax.maxMove()));
+        board[0] = "O";
+        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
+        Move[] acceptableMoves = {new Move(1, 1)};
+        assert(inSet(acceptableMoves, minMaxPlayer.nextMove()));
     }
 
-    public boolean inSet(int[] set, int move) {
+    public boolean inSet(Move[] set, Move move) {
         for(int i = 0; i < set.length; i++) {
-            if(set[i] == move) {
+            if(set[i].equals(move)) {
                 return true;
             }
         }

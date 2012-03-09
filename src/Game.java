@@ -1,3 +1,5 @@
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created by IntelliJ IDEA.
  * User: michaelbaker
@@ -7,24 +9,17 @@
  */
 public class Game {
     private String[] board;
+    private String playerOneToken;
+    private String playerTwoToken;
 
     public String toString() {
-        return "  a b c\n" +
-               "1 " + tokenToString(board[0]) + " " + tokenToString(board[1]) + " " + tokenToString(board[2]) + "\n" +
-               "2 " + tokenToString(board[3]) + " " + tokenToString(board[4]) + " " + tokenToString(board[5]) + "\n" +
-               "3 " + tokenToString(board[6]) + " " + tokenToString(board[7]) + " " + tokenToString(board[8]);
+        return StringUtils.join(board, ", ");
     }
     
-    private String tokenToString(String token) {
-        if(token == null) {
-            return " ";
-        } else {
-            return token;
-        }
-    }
-    
-    public Game() {
-        this.board = new String[9];
+    public Game(String playerOneToken, String playerTwoToken) {
+        this.board          = new String[9];
+        this.playerOneToken = playerOneToken;
+        this.playerTwoToken = playerTwoToken;
     }
     
     public String[] boardToArray() {
@@ -35,18 +30,14 @@ public class Game {
         return tokenAt(space) == null;
     }
     
-    public void placeXToken(Move space) {
+    public void placePlayerOneToken(Move space) {
         int index = convertMoveToIndex(space);
-        this.board[index] = "X";
+        this.board[index] = this.playerOneToken;
     }
     
-    public void placeOToken(Move space) {
+    public void placePlayerTwoToken(Move space) {
         int index = convertMoveToIndex(space);
-        this.board[index] = "O";
-    }
-
-    public void placeOToken(int i) {
-        this.board[i] = "O";
+        this.board[index] = this.playerTwoToken;
     }
 
     public String tokenAt(Move space) {
@@ -72,10 +63,6 @@ public class Game {
     
     private boolean isWinningLine(String a, String b, String c) {
         return a == b && b == c && a != null;
-    }
-
-    public boolean XWins() {
-        return false;
     }
 
     private boolean boardFull() {
