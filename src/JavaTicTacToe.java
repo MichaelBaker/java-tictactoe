@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class JavaTicTacToe {
     public static void main(String[] args) {
         Game game       = new Game();
-        UserInput input = new UserInput(new Scanner(System.in));
+        UserInput input = new UserInput(new Scanner(System.in), System.out, "Invalid space:");
         
         System.out.println("Welcome to the Gentleman's game of TicTacToe");
         

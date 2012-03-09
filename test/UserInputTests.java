@@ -34,7 +34,7 @@ public class UserInputTests {
     
     private Move makeMove(String inputString) {
         Scanner userInput = new Scanner(inputString);
-        UserInput input   = new UserInput(userInput);
+        UserInput input   = new UserInput(userInput, System.out, "Invalid Move");
         return input.nextMove();
     }
 }

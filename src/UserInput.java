@@ -1,3 +1,4 @@
+import java.io.PrintStream;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,21 +12,30 @@ import java.util.regex.Pattern;
  */
 public class UserInput {
     private Scanner inputStream;
+    private PrintStream outputStream;
     private final Pattern rowPattern = Pattern.compile("[abc]");
     private final Pattern columnPattern = Pattern.compile("[123]");
+    private String invalidMoveMessage;
 
-    public UserInput(Scanner inputStream) {
-      this.inputStream = inputStream;
+    public UserInput(Scanner inputStream, PrintStream outputStream, String invalidMoveMessage) {
+        this.inputStream        = inputStream;
+        this.outputStream       = outputStream;
+        this.invalidMoveMessage = invalidMoveMessage;
     }
 
     public Move nextMove() {
         String column = null;
-        String row = null;
-        do {
-          String line = this.inputStream.nextLine();
+        String row    = null;
+        String line   = this.inputStream.nextLine();
+        column        = getColumnToken(line);
+        row           = getRowToken(line);
+
+        while(column == null || row == null) {
+          this.outputStream.print(this.invalidMoveMessage);
+          line   = this.inputStream.nextLine();
           column = getColumnToken(line);
-          row = getRowToken(line);
-        } while(column == null || row == null);
+          row    = getRowToken(line);
+        } 
 
         return new Move(encodeRow(row), encodeColumn(column));
     }
@@ -33,13 +43,21 @@ public class UserInput {
     private String getColumnToken(String line) {
         Matcher matcher = columnPattern.matcher(line);
         matcher.find();
-        return matcher.group();
+        try {
+            return matcher.group();
+        } catch(IllegalStateException e) {
+            return null;
+        }
     }
     
     private String getRowToken(String line) {
         Matcher matcher = rowPattern.matcher(line);
         matcher.find();
-        return matcher.group();
+        try {
+            return matcher.group();
+        } catch(IllegalStateException e) {
+            return null;
+        }
     }
     
     private int encodeRow(String row) {
