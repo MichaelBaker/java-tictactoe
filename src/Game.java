@@ -1,5 +1,3 @@
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Created by IntelliJ IDEA.
  * User: michaelbaker
@@ -11,13 +9,28 @@ public class Game {
     private String[] board;
 
     public String toString() {
-        return StringUtils.join(board, ", ");
+        return "  a b c\n" +
+               "1 " + tokenToString(board[0]) + " " + tokenToString(board[1]) + " " + tokenToString(board[2]) + "\n" +
+               "2 " + tokenToString(board[3]) + " " + tokenToString(board[4]) + " " + tokenToString(board[5]) + "\n" +
+               "3 " + tokenToString(board[6]) + " " + tokenToString(board[7]) + " " + tokenToString(board[8]);
+    }
+    
+    private String tokenToString(String token) {
+        if(token == null) {
+            return " ";
+        } else {
+            return token;
+        }
     }
     
     public Game() {
         this.board = new String[9];
     }
     
+    public String[] boardToArray() {
+        return board;
+    }
+
     public boolean isValidMove(Move space) {
         return tokenAt(space) == null;
     }
@@ -32,13 +45,33 @@ public class Game {
         this.board[index] = "O";
     }
 
+    public void placeOToken(int i) {
+        this.board[i] = "O";
+    }
+
     public String tokenAt(Move space) {
         int index = convertMoveToIndex(space);
         return this.board[index];
     }
 
     public boolean isFinished() {
-        return boardFull();
+        return
+        // Check rows
+        isWinningLine(board[0], board[1], board[2]) ||
+        isWinningLine(board[3], board[4], board[5]) ||
+        isWinningLine(board[6], board[7], board[8]) ||
+        // Check columns
+        isWinningLine(board[0], board[3], board[6]) ||
+        isWinningLine(board[1], board[4], board[7]) ||
+        isWinningLine(board[2], board[5], board[8]) ||
+        // Check diagonals
+        isWinningLine(board[0], board[4], board[8]) ||
+        isWinningLine(board[2], board[4], board[6]) ||
+        boardFull();
+    }
+    
+    private boolean isWinningLine(String a, String b, String c) {
+        return a == b && b == c && a != null;
     }
 
     public boolean XWins() {

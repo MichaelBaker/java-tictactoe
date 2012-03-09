@@ -15,13 +15,19 @@ public class JavaTicTacToe {
         System.out.println("Welcome to the Gentleman's game of TicTacToe");
         
         while(!game.isFinished()) {
-            Move humanMove = null;
-            do {
-                System.out.print("Enter your move:");
-                humanMove = input.nextMove();
-            } while(!game.isValidMove(humanMove));
-            game.placeXToken(humanMove);
             System.out.println(game);
+            Move humanMove = null;
+            System.out.print("Enter your move:");
+            humanMove = input.nextMove();
+            while(!game.isValidMove(humanMove)) {
+                System.out.print("Invalid space:");
+                humanMove = input.nextMove();
+            }
+            game.placeXToken(humanMove);
+            MinMax computer = new MinMax(game.boardToArray(), "O", "X");
+            game.placeOToken(computer.maxMove());
         }
+        System.out.println("~ Game Over ~");
+        System.out.println(game);
     }
 }

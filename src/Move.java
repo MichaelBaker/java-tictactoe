@@ -10,7 +10,7 @@ public class Move {
     private int column;
 
     public Move(int row, int column) {
-        this.row = row;
+        this.row    = row;
         this.column = column;
     }
     
