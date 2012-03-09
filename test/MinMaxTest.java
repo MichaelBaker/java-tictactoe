@@ -63,7 +63,6 @@ public class MinMaxTest {
         board[0]              = "O";
         MinMax minMax         = new MinMax(board, "X", "O");
         int[] acceptableMoves = {4};
-        System.out.println(minMax.maxMove());
         assert(inSet(acceptableMoves, minMax.maxMove()));
     }
 
