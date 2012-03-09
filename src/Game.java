@@ -13,7 +13,7 @@ public class Game {
     private String playerTwoToken;
 
     public String toString() {
-        return StringUtils.join(board, ", ");
+        return "[" + StringUtils.join(board, ", ") + "]";
     }
     
     public Game(String playerOneToken, String playerTwoToken) {
