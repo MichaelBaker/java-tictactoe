@@ -34,8 +34,25 @@ public class MinMax {
         return bestSpace;
     }
     
+    public boolean minWins() {
+        return heuristic() == Integer.MIN_VALUE;
+    }
+
+    public boolean maxWins() {
+        return heuristic() == Integer.MAX_VALUE;
+    }
+
+    public boolean boardIsFull() {
+        for(int i = 0; i < board.length; i++) {
+            if(board[i] == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private int minimize() {
-        if(boardIsFull() || heuristic() == Integer.MIN_VALUE) {
+        if(boardIsFull() || minWins()) {
             return heuristic();
         } else {
             int bestScore = Integer.MAX_VALUE;
@@ -55,7 +72,7 @@ public class MinMax {
     }
 
     private int maximize() {
-        if(boardIsFull() || heuristic() == Integer.MAX_VALUE) {
+        if(boardIsFull() || maxWins()) {
             return heuristic();
         } else {
             int bestScore = Integer.MIN_VALUE;
@@ -73,16 +90,7 @@ public class MinMax {
             return bestScore;
         }
     }
-    
-    public boolean boardIsFull() {
-        for(int i = 0; i < board.length; i++) {
-            if(board[i] == null) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
+
     public int heuristic() {
         int score = 0;
         // Check rows
