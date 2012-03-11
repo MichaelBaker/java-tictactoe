@@ -24,21 +24,21 @@ public class MinMaxTest {
     }
 
     @Test
-    public void testHeuristic1() {
+    public void testMinPlayerGetsMinusOnePointPerUnblockedLinePerToken() {
         board[0] = "O";
         MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
         assertEquals(-3, minMaxPlayer.heuristic());
     }
 
     @Test
-    public void testHeuristic2() {
+    public void testMaxPlayerGetsOnePointPerUnblockedLinePerToken() {
         board[0] = "X";
         MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
         assertEquals(3, minMaxPlayer.heuristic());
     }
 
     @Test
-    public void testHeuristic3() {
+    public void testNoPointsAwardedForLinesContainingTokensFromEachPlayer() {
         board[0] = "O";
         board[1] = "X";
         MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
@@ -46,7 +46,7 @@ public class MinMaxTest {
     }
 
     @Test
-    public void testHeuristic4() {
+    public void testMinPlayerGetsMinusTwoPointsForTwoTokensOnTheSameLine() {
         board[0] = "O";
         board[1] = "O";
         MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
@@ -54,7 +54,7 @@ public class MinMaxTest {
     }
 
     @Test
-    public void testHeuristic5() {
+    public void testAWinForMaxPlayerIsWorthMaximumPoints() {
         board[0] = "X";
         board[1] = "X";
         board[2] = "X";
