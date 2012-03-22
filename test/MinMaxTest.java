@@ -11,7 +11,7 @@ import static junit.framework.Assert.assertEquals;
  */
 public class MinMaxTest {
     protected String[] board = {null, null, null, null, null, null, null, null, null};
-    
+
     @Test
     public void testProperOpeningMove() {
         MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
@@ -24,42 +24,41 @@ public class MinMaxTest {
     }
 
     @Test
-    public void testMinPlayerGetsMinusOnePointPerUnblockedLinePerToken() {
-        board[0] = "O";
-        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
-        assertEquals(-3, minMaxPlayer.heuristic());
-    }
-
-    @Test
-    public void testMaxPlayerGetsOnePointPerUnblockedLinePerToken() {
+    public void testBlocksHorizontalWin() {
         board[0] = "X";
-        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
-        assertEquals(3, minMaxPlayer.heuristic());
-    }
-
-    @Test
-    public void testNoPointsAwardedForLinesContainingTokensFromEachPlayer() {
-        board[0] = "O";
         board[1] = "X";
-        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
-        assertEquals(-1, minMaxPlayer.heuristic());
+        board[4] = "O";
+        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "O", "X");
+        Move move = minMaxPlayer.nextMove();
+        assertEquals(0, move.getRow());
+        assertEquals(2, move.getColumn());
     }
-
+    
     @Test
-    public void testMinPlayerGetsMinusTwoPointsForTwoTokensOnTheSameLine() {
-        board[0] = "O";
-        board[1] = "O";
-        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
-        assertEquals(-5, minMaxPlayer.heuristic());
-    }
-
-    @Test
-    public void testAWinForMaxPlayerIsWorthMaximumPoints() {
+    public void testAWinForMaxPlayer() {
         board[0] = "X";
         board[1] = "X";
         board[2] = "X";
         MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
-        assertEquals(Integer.MAX_VALUE, minMaxPlayer.heuristic());
+        assert(minMaxPlayer.maxWins());
+    }
+
+    @Test
+    public void testAWinForMinPlayer() {
+        board[0] = "O";
+        board[1] = "O";
+        board[2] = "O";
+        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
+        assert(minMaxPlayer.minWins());
+    }
+
+    @Test
+    public void testTie() {
+        board[0] = "X"; board[1] = "O"; board[2] = "X";
+        board[3] = "O"; board[4] = "O"; board[5] = "X";
+        board[6] = "X"; board[7] = "X"; board[8] = "O";
+        MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
+        assert(minMaxPlayer.isTie());
     }
 
     @Test
@@ -67,7 +66,38 @@ public class MinMaxTest {
         board[0] = "O";
         MinMaxPlayer minMaxPlayer = new MinMaxPlayer(board, "X", "O");
         Move[] acceptableMoves = {new Move(1, 1)};
+        Move move = minMaxPlayer.nextMove();
         assert(inSet(acceptableMoves, minMaxPlayer.nextMove()));
+    }
+
+    @Test
+    public void testOpponentCornerStrategy() {
+        board[0] = board[2] = board[8] = "X";
+        board[1] = board[3] = board[4] = "O";
+        MinMaxPlayer player = new MinMaxPlayer(board, "O", "X");
+        Move newMove = player.nextMove();
+        assertEquals(1, newMove.getRow());
+        assertEquals(2, newMove.getColumn());
+    }
+
+    @Test
+    public void testSideWin() {
+        board[0] = board[2] = board[8] = board[5] = "X";
+        board[1] = board[3] = board[4] = "O";
+        MinMaxPlayer player0 = new MinMaxPlayer(board, "X", "O");
+        MinMaxPlayer player1 = new MinMaxPlayer(board, "O", "X");
+        assert(player0.maxWins());
+        assert(player1.minWins());
+    }
+
+    @Test
+    public void testTakesTheWin() {
+        board[0] = board[2] = board[8] = "X";
+        board[1] = board[4] = "O";
+        MinMaxPlayer player = new MinMaxPlayer(board, "O", "X");
+        Move newMove = player.nextMove();
+        assertEquals(2, newMove.getRow());
+        assertEquals(1, newMove.getColumn());
     }
 
     public boolean inSet(Move[] set, Move move) {

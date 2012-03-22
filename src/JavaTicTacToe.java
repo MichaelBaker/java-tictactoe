@@ -32,6 +32,7 @@ public class JavaTicTacToe {
             }
             game.placePlayerOneToken(humanMove);
             MinMaxPlayer computer = new MinMaxPlayer(game.boardToArray(), playerTwoToken, playerOneToken);
+            if(computer.isTie()) { break; }
             game.placePlayerTwoToken(computer.nextMove());
         }
 
